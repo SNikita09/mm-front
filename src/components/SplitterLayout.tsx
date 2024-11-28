@@ -4,6 +4,7 @@ import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
 import { customStorage } from "../utils/customStorage";
 import styles from "./SplitterLayout.module.scss";
 import { SettingType } from "../repo/settings.repo";
+import MapComponent from "./map/MapComponent";
 
 type SplitterSizeT = {
   splitterSizeH: number;
@@ -118,12 +119,7 @@ const MemoizedMapComponent = memo(({ onLoad }: { onLoad: () => void }) => {
   useEffect(() => {
     onLoad();
   }, [onLoad]);
-  return (
-    <div className={styles.splitterRightPanel}>
-      <h2>Left Panel</h2>
-      <p>This is the Left panel content.</p>
-    </div>
-  );
+  return <MapComponent />;
 });
 
 export default SplitterLayout;

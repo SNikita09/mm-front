@@ -1,14 +1,11 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-
 import SplitterLayout from "./components/SplitterLayout";
+import GeoHOC from "./models/GeoHOC";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SplitterLayout />} />
-      </Routes>
-    </Router>
+    <GeoHOC>
+      <SplitterLayout />
+    </GeoHOC>
   );
 }
 

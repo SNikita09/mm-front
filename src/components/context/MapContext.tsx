@@ -1,9 +1,7 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { EntityVersions, MapControls } from "../../models/Context";
+import React, { createContext, useContext, useState } from "react";
+import { MapControls } from "../../models/Context";
 
 interface MapContextType {
-  versions: EntityVersions;
-  updateVersion: (entity: string) => void;
   mapControls: MapControls;
   setMapControls: (mapControls: MapControls) => void;
 }
@@ -15,22 +13,10 @@ interface MapProviderProps {
 }
 
 export const MapProvider: React.FC<MapProviderProps> = ({ children }) => {
-  const [versions, setVersions] = useState<EntityVersions>(
-    {} as EntityVersions
-  );
   const [mapControls, setMapControls] = useState<MapControls>({});
 
-  const updateVersion = useCallback((entity: string) => {
-    setVersions((prev) => ({
-      ...prev,
-      [entity]: new Date(),
-    }));
-  }, []);
-
   return (
-    <MapContext.Provider
-      value={{ versions, updateVersion, mapControls, setMapControls }}
-    >
+    <MapContext.Provider value={{ mapControls, setMapControls }}>
       {children}
     </MapContext.Provider>
   );

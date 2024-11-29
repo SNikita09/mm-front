@@ -1,5 +1,5 @@
 import SplitterLayout from "./components/SplitterLayout";
-import GeoHOC from "./models/GeoHOC";
+import GeoHOC from "./components/GeoHOC";
 
 function App() {
   return (

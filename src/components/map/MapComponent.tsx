@@ -6,10 +6,12 @@ import { defaults as defaultInteractions } from "ol/interaction";
 import "ol/ol.css";
 import React, { useEffect, useMemo, useRef } from "react";
 import { MapState } from "../../models/Map";
-import { useMapContext } from "./MapContext";
+import { useMapContext } from "../context/MapContext";
 import styles from "./MapStyles.module.scss";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
+import { fromLonLat } from "ol/proj";
+import { useVersionContext } from "../context/VersionContext";
 
 interface MapComponentProps {
   initialState?: MapState;
@@ -17,8 +19,10 @@ interface MapComponentProps {
 
 const MapComponent: React.FC<MapComponentProps> = ({ initialState }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const { mapControls, setMapControls, updateVersion } = useMapContext();
-  const center = [47.8, 40.3777];
+  const { mapControls, setMapControls } = useMapContext();
+  const { updateVersion } = useVersionContext();
+  const centerCoordinates = [49.8671, 40.4093];
+  const center = fromLonLat(centerCoordinates);
   const zoom = 8;
 
   const controlMousePosition = new olControl.MousePosition({
@@ -58,31 +62,10 @@ const MapComponent: React.FC<MapComponentProps> = ({ initialState }) => {
     const olMap = new Map(mapOptions);
     olMap.setTarget(mapRef.current);
 
-    // setMapControls({
-    //   ...mapControls,
-    //   zoomControl: {
-    //     zoomIn: () => {
-    //       const view = olMap.getView();
-    //       if (view) {
-    //         const zoom = view.getZoom();
-    //         if (zoom !== undefined) {
-    //           view.setZoom(zoom + 1);
-    //         }
-    //       }
-    //     },
-    //     zoomOut: () => {
-    //       const view = olMap.getView();
-    //       if (view) {
-    //         const zoom = view.getZoom();
-    //         if (zoom !== undefined) {
-    //           view.setZoom(zoom - 1);
-    //         }
-    //       }
-    //     },
-    //   },
-    // });
-    console.log("1");
     updateVersion("Map");
+    return () => {
+      olMap.setTarget();
+    };
   }, [mapRef, mapControls, setMapControls, updateVersion]);
 
   return <div ref={mapRef} className={styles.olMap} />;

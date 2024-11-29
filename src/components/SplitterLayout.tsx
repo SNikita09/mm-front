@@ -5,6 +5,7 @@ import { customStorage } from "../utils/customStorage";
 import styles from "./SplitterLayout.module.scss";
 import { SettingType } from "../repo/settings.repo";
 import MapComponent from "./map/MapComponent";
+import MapBarTools from "./mapTools/MapBarTools";
 
 type SplitterSizeT = {
   splitterSizeH: number;
@@ -94,6 +95,7 @@ const SplitterLayout: FC = () => {
             }}
           >
             <div className={styles.splitterMap}>
+              <MapBarTools />
               <MemoizedMapComponent
                 onLoad={() => setIsMapComponentLoaded(true)}
               />
